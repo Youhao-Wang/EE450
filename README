@@ -1,0 +1,63 @@
+a. Name: Youhao Wang
+b. Student ID: 8942271859
+c. What have I done in this assignment:
+	I have finished all the requirement as described in the Project requirement. In Phase1 all four servers will up and run. And the client will get the function from input command line and read data from nums.csv file. In Phases2 the client will send all of them to AWS using TCP connection. And the AWS will divide them into three part and send to three back-server separately using UDP connection. Three back-server will make the calculation and send the result back to AWS. In Phases3 the AWS will calculate three result and send back to client. 
+
+d. what each file does:
+	client.c: it will get the function name and read data from csv file and using TCP 			  connection send to aws server. After calculation, it will get the result 			  and show on the screem. 
+	aws.c:    it will get the function name, size of data and all data from client and 			  divide them into three part. and them send them to three backserver.
+			  After getting result from three back server, it will calculate again and send the final result to client.  
+	serverA.c: After it get data from AWS using UDP, it will make the calculation and 			  then send back the result to aws.
+	serverB.c: After it get data from AWS using UDP, it will make the calculation and 			  then send back the result to aws.
+	serverC.c: After it get data from AWS using UDP, it will make the calculation and 			  then send back the result to aws.
+
+e. how to run the programs:
+	1. Frist you should open five different terminal. And using one of them to type"make all" to compile all the file. 
+	2. typing "make serverA" using one terminal to run serverA.
+	3. typing "make serverB" using one terminal to run serverB.
+	4. typing "make serverC" using one terminal to run serverc.
+	5. typing "make aws" using one terminal to run AWS. 
+	6. typing "./client _function_name" to run the client. and the _function_name should be one of "sum, sos, min, max". 
+
+f. The format of all the messages exchanged:
+   1. client:
+    The client is up and running. 
+	The client has sent the reduction type SUM to AWS.
+	The client has sent 300 numbers to AWS.
+	The client has received reduction SUM: 163262 
+
+   2. aws:
+   	The AWS is up and running. 
+	The AWS has received 300 numbers from the client using TCP over port 46426. 
+	The AWS sent 100 numbers to BackendServer A. 
+	The AWS sent 100 numbers to BackendServer B. 
+	The AWS sent 100 numbers to BackendServer C. 
+	The AWS received reduction result of SUM from Backend-Server A using UDP over port 21859 and it is 50553 
+	The AWS received reduction result of SUM from Backend-Server B using UDP over port 22859 and it is 58962 
+	The AWS received reduction result of SUM from Backend-Server C using UDP over port 23859 and it is 53747 
+	The AWS has successfully finished the reduction SUM: 163262 
+	The AWS has successfully finished sending the reduction value to client.
+
+   3. serverA:
+	The Server A is up and running using UDP on port 21859.
+	The Server A has received 100 numbers. 
+	The Server A has successfully finished the reduction SUM : 50553 
+	The Server A has successfully finished sending the reduction value to AWS server
+
+   4. serverB:
+    The Server B is up and running using UDP on port 22859.
+	The Server B has received 100 numbers. 
+	The Server B has successfully finished the reduction SUM : 58962 
+	The Server B has successfully finished sending the reduction value to AWS server
+
+   5. serverC:
+	The Server C is up and running using UDP on port 23859.
+	The Server C has received 100 numbers. 
+	The Server C has successfully finished the reduction SUM : 53747 
+	The Server C has successfully finished sending the reduction value to AWS server
+
+g. the idiosyncrasy:
+	Under my test case, I have net found any fail. Hoever, to run the project, you must obey the order described in "how to run" part. 
+
+h. reuse of the code:
+	Some code block for setting TCP and UDP are from "Beej's Guide to Network Programming -- Using Internet Sockets". They are marked in the program. 
